@@ -134,6 +134,10 @@ def main():
     model.CLASSES = checkpoint['meta']['CLASSES']
     model.PALETTE = checkpoint['meta']['PALETTE']
 
+    # add print statement
+    for name, param in model.named_parameters():
+        print(name, param.shape)
+
     efficient_test = True #False
     if args.eval_options is not None:
         efficient_test = args.eval_options.get('efficient_test', False)
