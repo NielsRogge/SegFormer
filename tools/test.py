@@ -135,8 +135,10 @@ def main():
     model.PALETTE = checkpoint['meta']['PALETTE']
 
     # add print statement
-    for name, param in model.named_parameters():
-        print(name, param.shape)
+    batch = next(iter(data_loader))
+    print(batch.keys())
+    for k,v in batch.items():
+        print(k, v.shape)
 
     efficient_test = True #False
     if args.eval_options is not None:
