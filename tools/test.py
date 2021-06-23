@@ -137,8 +137,8 @@ def main():
     # add print statement (first batch)
     batch = next(iter(data_loader))
     print(batch.keys())
-    img_tensor = data['img'][0]
-    img_metas = data['img_metas'][0].data[0]
+    img_tensor = batch['img'][0]
+    img_metas = batch['img_metas'][0].data[0]
     print(img_tensor.shape)
     print(img_metas)
 
