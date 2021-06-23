@@ -134,11 +134,13 @@ def main():
     model.CLASSES = checkpoint['meta']['CLASSES']
     model.PALETTE = checkpoint['meta']['PALETTE']
 
-    # add print statement
+    # add print statement (first batch)
     batch = next(iter(data_loader))
     print(batch.keys())
-    for k,v in batch.items():
-        print(k, v.shape)
+    img_tensor = data['img'][0]
+    img_metas = data['img_metas'][0].data[0]
+    print(img_tensor.shape)
+    print(img_metas)
 
     efficient_test = True #False
     if args.eval_options is not None:
