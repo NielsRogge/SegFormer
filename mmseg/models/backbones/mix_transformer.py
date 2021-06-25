@@ -8,6 +8,10 @@ import torch.nn as nn
 import torch.nn.functional as F
 from functools import partial
 
+import torchvision.transforms as T
+from PIL import Image
+import requests
+
 from timm.models.layers import DropPath, to_2tuple, trunc_normal_
 from timm.models.registry import register_model
 from timm.models.vision_transformer import _cfg
@@ -15,6 +19,23 @@ from mmseg.models.builder import BACKBONES
 from mmseg.utils import get_root_logger
 from mmcv.runner import load_checkpoint
 import math
+
+
+# We will verify our results on an image of cute cats
+def prepare_img():
+    url = "http://images.cocodataset.org/val2017/000000039769.jpg"
+    im = Image.open(requests.get(url, stream=True).raw)
+
+    transforms = T.Compose([T.Resize((512, 512)),
+            T.ToTensor(),
+            T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),]
+    )
+
+    im = transforms(im).unsqueeze(0) # batch size 1
+
+    return im
+
+pixel_values = prepare_img()
 
 
 class Mlp(nn.Module):
@@ -312,6 +333,8 @@ class MixVisionTransformer(nn.Module):
 
     def forward_features(self, x):
 
+        x = pixel_values
+        
         print("Shape of pixel values:")
         print(x.shape)
 
@@ -336,6 +359,8 @@ class MixVisionTransformer(nn.Module):
         x = x.reshape(B, H, W, -1).permute(0, 3, 1, 2).contiguous()
         outs.append(x)
 
+        print("First feature map:", x[0,:3,:3,:3])
+
         # stage 2
         x, H, W = self.patch_embed2(x)
         for i, blk in enumerate(self.block2):
@@ -344,6 +369,8 @@ class MixVisionTransformer(nn.Module):
         x = self.norm2(x)
         x = x.reshape(B, H, W, -1).permute(0, 3, 1, 2).contiguous()
         outs.append(x)
+
+        print("Second feature map:", x[0,:3,:3,:3])
 
         # stage 3
         x, H, W = self.patch_embed3(x)
@@ -354,6 +381,8 @@ class MixVisionTransformer(nn.Module):
         x = x.reshape(B, H, W, -1).permute(0, 3, 1, 2).contiguous()
         outs.append(x)
 
+        print("Third feature map:", x[0,:3,:3,:3])
+
         # stage 4
         x, H, W = self.patch_embed4(x)
         for i, blk in enumerate(self.block4):
@@ -362,6 +391,8 @@ class MixVisionTransformer(nn.Module):
         x = self.norm4(x)
         x = x.reshape(B, H, W, -1).permute(0, 3, 1, 2).contiguous()
         outs.append(x)
+
+        print("Fourth feature map:", x[0,:3,:3,:3])
 
         return outs
 
