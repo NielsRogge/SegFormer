@@ -333,7 +333,7 @@ class MixVisionTransformer(nn.Module):
 
     def forward_features(self, x):
 
-        x = pixel_values
+        x = pixel_values.to(self.device)
         
         print("Shape of pixel values:")
         print(x.shape)
