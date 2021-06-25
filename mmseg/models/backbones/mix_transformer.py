@@ -318,6 +318,9 @@ class MixVisionTransformer(nn.Module):
         print("Sum of pixel values:")
         print(x.sum())
 
+        print("Initial values of pixel values:")
+        print(x[0,:3,:3,:3])
+
         B = x.shape[0]
         outs = []
 
