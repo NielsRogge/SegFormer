@@ -277,6 +277,8 @@ class MixVisionTransformer(nn.Module):
         # classification head
         # self.head = nn.Linear(embed_dims[3], num_classes) if num_classes > 0 else nn.Identity()
 
+        self.dummy_param = nn.Parameter(torch.empty(0))
+
         self.apply(self._init_weights)
 
     def _init_weights(self, m):
@@ -333,7 +335,7 @@ class MixVisionTransformer(nn.Module):
 
     def forward_features(self, x):
 
-        x = pixel_values.to(self.device)
+        x = pixel_values.to(self.dummy_param.device)
         
         print("Shape of pixel values:")
         print(x.shape)
