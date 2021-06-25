@@ -377,13 +377,13 @@ class MixVisionTransformer(nn.Module):
         # stage 3
         x, H, W = self.patch_embed3(x)
 
-        print("Hidden states after patch embedding:", x[0,:3,:3,:3])
+        print("Hidden states after patch embedding:", x[0,:3,:3])
 
         for i, blk in enumerate(self.block3):
             x = blk(x, H, W)
             print(x.shape)
         
-        print("Hidden states after blocks:", x[0,:3,:3,:3])
+        print("Hidden states after blocks:", x[0,:3,:3])
         
         x = self.norm3(x)
         x = x.reshape(B, H, W, -1).permute(0, 3, 1, 2).contiguous()
