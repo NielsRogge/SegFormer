@@ -81,6 +81,9 @@ class SegFormerHead(BaseDecodeHead):
 
         print("Output after concatenation:")
         print(torch.cat([_c4, _c3, _c2, _c1], dim=1)[0,:3,:3,:3]) 
+
+        print("Sum of output after concatenation:")
+        print(torch.cat([_c4, _c3, _c2, _c1], dim=1).sum()) 
         
         _c = self.linear_fuse(torch.cat([_c4, _c3, _c2, _c1], dim=1))
 
@@ -88,6 +91,9 @@ class SegFormerHead(BaseDecodeHead):
         print(_c.shape)
 
         print(_c[0,:3,:3,:3])
+
+        print("Sum of output after linear fuse:")
+        print(_c.sum())
 
         x = self.dropout(_c)
         x = self.linear_pred(x)
