@@ -172,8 +172,20 @@ class Block(nn.Module):
                 m.bias.data.zero_()
 
     def forward(self, x, H, W):
-        x = x + self.drop_path(self.attn(self.norm1(x), H, W))
-        x = x + self.drop_path(self.mlp(self.norm2(x), H, W))
+        
+        y = self.attn(self.norm1(x), H, W)
+
+        print("Output after self-attention:")
+        print(y[0,:3,:3])
+        
+        x = x + self.drop_path(y)
+
+        z = self.mlp(self.norm2(x), H, W)
+
+        print("Output after mlp:")
+        print(z[0,:3,:3])
+
+        x = x + self.drop_path(z)
 
         return x
 
