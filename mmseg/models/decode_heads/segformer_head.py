@@ -79,12 +79,15 @@ class SegFormerHead(BaseDecodeHead):
 
         _c1 = self.linear_c1(c1).permute(0,2,1).reshape(n, -1, c1.shape[2], c1.shape[3])
 
+        print("Output after concatenation:")
+        print(torch.cat([_c4, _c3, _c2, _c1], dim=1)[0,:3,:3,:3]) 
+        
         _c = self.linear_fuse(torch.cat([_c4, _c3, _c2, _c1], dim=1))
 
         print("Shape of output after linear fuse:")
         print(_c.shape)
 
-        print(_c[0,:3,:3])
+        print(_c[0,:3,:3,:3])
 
         x = self.dropout(_c)
         x = self.linear_pred(x)
