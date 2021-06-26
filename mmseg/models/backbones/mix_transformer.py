@@ -129,6 +129,12 @@ class Attention(nn.Module):
 
         attn = (q @ k.transpose(-2, -1)) * self.scale
         attn = attn.softmax(dim=-1)
+
+        print("Shape of attention after softmax:")
+        print(attn.shape)
+
+        print(attn[0,:3,:3])
+
         attn = self.attn_drop(attn)
 
         x = (attn @ v).transpose(1, 2).reshape(B, N, C)
@@ -172,6 +178,9 @@ class Block(nn.Module):
                 m.bias.data.zero_()
 
     def forward(self, x, H, W):
+        
+        print("Output after first layer norm:")
+        print(self.norm1(x)[0,:3,:3])
         
         y = self.attn(self.norm1(x), H, W)
 
