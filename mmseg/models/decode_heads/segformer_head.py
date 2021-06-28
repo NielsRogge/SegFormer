@@ -98,4 +98,13 @@ class SegFormerHead(BaseDecodeHead):
         x = self.dropout(_c)
         x = self.linear_pred(x)
 
+        print("Shape of logits:")
+        print(x.shape)
+
+        print("Sum of logits:")
+        print(x.sum())
+
+        print("First logits:")
+        print(logits[0,:3,:3])
+
         return x
