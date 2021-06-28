@@ -105,6 +105,6 @@ class SegFormerHead(BaseDecodeHead):
         print(x.sum())
 
         print("First logits:")
-        print(logits[0,:3,:3])
+        print(x[0,:3,:3,:3])
 
         return x
