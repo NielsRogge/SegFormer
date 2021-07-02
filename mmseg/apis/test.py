@@ -58,10 +58,8 @@ def single_gpu_test(model,
     prog_bar = mmcv.ProgressBar(len(dataset))
     for i, data in enumerate(data_loader):
         with torch.no_grad():
-            for k,v in data.items():
-                print(k, v.shape)
+            print(data.keys())
             result = model(return_loss=False, **data)
-
             print("Result:", result)
 
         if show or out_dir:
