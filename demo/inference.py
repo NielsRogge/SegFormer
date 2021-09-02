@@ -14,7 +14,7 @@ def main():
     # define model based on config file and checkpoint file
     model = init_segmentor(args.config, args.checkpoint, device=device)
     # forward pass with dummy img
-    img = 'demo.png'
+    img = './demo/demo.png'
     result = inference_segmentor(model, img)
     print(result.shape)
 
