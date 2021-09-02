@@ -1,8 +1,6 @@
 from argparse import ArgumentParser
 import torch
 from mmseg.apis import init_segmentor, inference_segmentor
-import requests
-from PIL import Image
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -16,8 +14,7 @@ def main():
     # define model based on config file and checkpoint file
     model = init_segmentor(args.config, args.checkpoint, device=device)
     # forward pass with dummy img
-    url = "http://images.cocodataset.org/val2017/000000039769.jpg"
-    img = Image.open(requests.get(url, stream=True).raw)
+    img = "demo.png"
     result = inference_segmentor(model, img)
     print(result.shape)
 
