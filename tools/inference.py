@@ -9,6 +9,8 @@ def main():
     parser.add_argument('config', help='Config file')
     parser.add_argument('checkpoint', help='Checkpoint file')
 
+    args = parser.parse_args()
+
     # define model based on config file and checkpoint file
     model = init_segmentor(args.config, args.checkpoint, device=device)
     # forward pass
