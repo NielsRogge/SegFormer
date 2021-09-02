@@ -10,7 +10,7 @@ def main():
     parser.add_argument('checkpoint', help='Checkpoint file')
 
     # define model based on config file and checkpoint file
-    model = init_segmentor(config_file, checkpoint_file, device=device)
+    model = init_segmentor(args.config, args.checkpoint, device=device)
     # forward pass
     data = dict()
     with torch.no_grad():
