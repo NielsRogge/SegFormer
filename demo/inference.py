@@ -16,7 +16,7 @@ def main():
     # forward pass with dummy img
     img = './demo/demo.png'
     result = inference_segmentor(model, img)
-    print(result.shape)
+    print(result)
 
 if __name__ == '__main__':
     main()
