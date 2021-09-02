@@ -84,4 +84,7 @@ class SegFormerHead(BaseDecodeHead):
         x = self.dropout(_c)
         x = self.linear_pred(x)
 
+        print("Shape of logits:", x.shape)
+        print("First elements of logits:", x[0, :3, :3, :3])
+        
         return x
